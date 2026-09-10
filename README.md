@@ -42,7 +42,7 @@
    * *實作嘗試：* 評估直接設定 `scale_pos_weight = 負樣本數 / 正樣本數`（約 2000~3000）。
    * *實測結果：* 梯度震盪劇烈，模型對邊界極端值過度敏感，收斂困難。
 3. **最終解方：平方根阻尼加權（Damped Scale-Pos-Weight） + 雙向閾值截斷：**
-   * 取平方根進行加權阻尼（`np.sqrt(neg_count / pos_count)`），將權重控制在 ~50 左右，搭配 LightGBM 樹深限制（max_depth=3~4），抑制過擬合並確保機率校準（Calibration）平滑，使高分與低分端皆具備可信度。
+   * 取平方根進行加權阻尼（`np.sqrt(neg_count / pos_count)`），抑制過擬合並確保機率校準平滑，使高分與低分端皆具備可信度。
 
 ### Phase 4：模型驗證與可解釋性導入 (Explainability)
 * 採用嚴格的 **Out-of-Time (OOT) 跨期驗證**，模擬上線後跨季運作的情境，杜絕時間序列上的數據穿越（Data Leakage）。
